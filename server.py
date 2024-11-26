@@ -10,6 +10,7 @@ def detect_emotion():
     output_string = "For the given statement, the system response is "
     for key in emotions:
         if key == "dominant_emotion":
+            if emotions[key] == None : return "Invalid text! Please Try Again!"
             output_string += ". The dominant emotion is {}".format(emotions[key])
         else:
             output_string += "'{}': {}, ".format(key, emotions[key])
