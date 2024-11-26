@@ -6,4 +6,13 @@ def emotion_detector(text_to_analyze):
     headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     body= { "raw_document": { "text": text_to_analyze } }
     response = requests.post(URL, json = body, headers = headers)
-    return response.text
+    json_response = json.loads(response.text)
+    result = json_response["emotionPredictions"][0]["emotion"]
+    maxScore = 0
+    maxEmotion = None 
+    for emotion in result:
+        if result[emotion] > maxScore: 
+            maxScore = result[emotion]
+            maxEmotion = emotion
+    result["dominant_emotion"] = maxEmotion
+    return result
